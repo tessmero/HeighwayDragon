@@ -15,7 +15,8 @@ import java.util.Arrays;
 public class HeighwayDragon {
     
     public static void main(String[] args) {
-        System.out.println( Arrays.toString( getPosition( getDragon( 10 ), 500 ) ) );
+        //System.out.println( Arrays.toString( getPosition( getDragon( 10 ), 500 ) ) );
+        new DragonViewer( getDragon( 20 ) ).setVisible( true );
     }
     
     /**
@@ -37,13 +38,15 @@ public class HeighwayDragon {
         }
     }
     
-    public static void advanceCursor( char c, Cursor cursor ){
-        if( c == 'F' )
+    public static boolean advanceCursor( char c, Cursor cursor ){
+        if( c == 'F' ){
             cursor.stepForward();
-        else if( c == 'R' )
+            return true;
+        }else if( c == 'R' )
             cursor.turnRight();
         else if( c == 'L' )
             cursor.turnLeft();
+        return false;
     }
     
     public static String getDragon( int i ){
