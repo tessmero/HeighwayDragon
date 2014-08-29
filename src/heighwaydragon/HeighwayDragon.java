@@ -16,7 +16,7 @@ public class HeighwayDragon {
     
     public static void main(String[] args) {
         //System.out.println( Arrays.toString( getPosition( getDragon( 10 ), 500 ) ) );
-        new DragonViewer( getDragon( 20 ) ).setVisible( true );
+        new DragonViewer( getDragon( 25 ) ).setVisible( true );
     }
     
     /**
