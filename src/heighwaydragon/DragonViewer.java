@@ -8,9 +8,12 @@ package heighwaydragon;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
@@ -22,7 +25,7 @@ import javax.swing.JScrollPane;
  * @author Oliver
  */
 public class DragonViewer extends JFrame{
-    private static final int w = 500, h = 500;
+    private static final int w = 800, h = 800;
     private static final Color 
             bgCol = Color.WHITE, 
             fgCol = Color.BLACK,
@@ -30,21 +33,25 @@ public class DragonViewer extends JFrame{
     private static final long delay = 0; //delay of zero indicates fast-as-possible updates
     
     private final Cursor cursor;
-    private final String script;
+    private DragonScript script;
     
     private BufferedImage displayImage;
     private Graphics displayGraphics;
     private int scriptPos = 0;
     private double scale = 8;
     
-    public DragonViewer( String dragonScript ){
+    public DragonViewer( DragonScript script ) throws FileNotFoundException{
         displayImage = new BufferedImage( w, h, BufferedImage.TYPE_INT_ARGB );
         displayGraphics = displayImage.getGraphics();
         displayGraphics.setColor( bgCol );
         displayGraphics.fillRect( 0, 0, w, h );
         displayGraphics.setColor( fgCol );
         cursor = new Cursor();
-        script = dragonScript;
+//        script.addCompletionListener( i->{
+//            if( i > 6 )
+//                System.out.println( "completion at depth " + i );
+//        } );
+        this.script = script;
         setContentPane( new JScrollPane( new JLabel(){
             @Override
             public void paint( Graphics g ){
@@ -72,9 +79,19 @@ public class DragonViewer extends JFrame{
     }
     
     private char getNextScriptChar(){
-        char result = script.charAt( scriptPos++ );
-        scriptPos = scriptPos%script.length();
-        return result;
+        int result = script.getNextChar();
+        if( result == -1 ){
+            
+            if( cursor.isAtStart() )
+                System.out.println( "looped after " + cursor.getStepCount() + " steps" );
+            
+            script.reset();
+            result = script.getNextChar();
+        }
+        
+        //System.out.println( cursor.getStepCount() );
+        
+        return (char)result;
     }
     
     private int transformXCoord( int x ){

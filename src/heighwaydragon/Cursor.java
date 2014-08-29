@@ -40,4 +40,8 @@ public class Cursor {
     public int getStepCount() {
         return stepCount;
     }
+    
+    public boolean isAtStart(){
+        return x == 0 && y == 0 && dir == Direction.UP;
+    }
 }

@@ -6,7 +6,10 @@
 
 package heighwaydragon;
 
-import java.util.Arrays;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.PrintStream;
 
 /**
  *
@@ -14,9 +17,10 @@ import java.util.Arrays;
  */
 public class HeighwayDragon {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         //System.out.println( Arrays.toString( getPosition( getDragon( 10 ), 500 ) ) );
-        new DragonViewer( getDragon( 25 ) ).setVisible( true );
+        //System.out.println( new DragonScript( 2 ) );
+        new DragonViewer( new DragonScript( 50 ) ).setVisible( true );
     }
     
     /**
@@ -47,27 +51,5 @@ public class HeighwayDragon {
         else if( c == 'L' )
             cursor.turnLeft();
         return false;
-    }
-    
-    public static String getDragon( int i ){
-        if( i == 0 )
-            return "Fa";
-        else{
-            String s = getDragon( i-1 );
-            
-            //debug
-//            System.out.println( "building dragon " + i );
-            
-            StringBuilder sb = new StringBuilder();
-            for( char c : s.toCharArray() ){
-                if( c == 'a' )
-                    sb.append( "aRbFR" );
-                else if( c == 'b' )
-                    sb.append( "LFaLb" );
-                else
-                    sb.append( c );
-            }
-            return sb.toString();
-        }
     }
 }
